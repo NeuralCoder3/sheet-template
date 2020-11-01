@@ -1,0 +1,116 @@
+\documentclass{article}
+\usepackage{iftex}
+\ifluatex
+	\usepackage{fontspec}
+\else
+	\usepackage[utf8]{inputenc}
+\fi
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[ngerman]{babel}
+\usepackage{csquotes}
+
+\usepackage{xcolor} %Paket für Verwendung von Farben
+\usepackage{graphicx} %Paket zur Einbindung von Grafiken
+\usepackage{tikz} %Paket zur Erstellung von Vektorgrafiken und Diagrammen
+
+\usepackage[amsmath, thmmarks, hyperref]{ntheorem} %Paket zur Definition mathematischer Umgebungen wie Satz, Definition, ...
+
+\theoremstyle{plain}
+\theoremheaderfont{\normalfont\bfseries}
+\theorembodyfont{\itshape}
+\theoremseparator{:}
+\theorempreskip{\topsep}
+\theorempostskip{\topsep}
+\theoremindent0cm
+\theoremnumbering{arabic}
+%\theoremsymbol{\ensuremath{\square}}
+\newtheorem*{Lemma}{Lemma}
+
+\theoremstyle{plain}
+\theoremheaderfont{\normalfont\bfseries}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theorempreskip{\topsep}
+\theorempostskip{\topsep}
+\theoremindent0cm
+\theoremnumbering{arabic}
+\theoremsymbol{}
+\newtheorem{Aufgabe}{Aufgabe}
+\newtheorem*{Loesung}{Lösung}
+\newtheorem*{Definition}{Definition}
+
+\theoremstyle{plain}
+\theoremheaderfont{\normalfont\bfseries}
+\theorembodyfont{\upshape}
+\theoremseparator{:}
+\theorempreskip{\topsep}
+\theorempostskip{\topsep}
+\theoremindent0cm
+\theoremnumbering{arabic}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem*{Proof}{Proof}
+
+\usepackage[headheight=24pt,heightrounded]{geometry}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+
+\usepackage{xcolor}
+\definecolor{urlcolor}{RGB}{0,136,204}
+\definecolor{linkcolor}{RGB}{204,0,34}
+\usepackage[colorlinks,urlcolor=urlcolor,linkcolor=linkcolor]{hyperref}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{mathtools}
+
+\usepackage{algorithm2e}
+\usepackage{listings}
+\usepackage{totcount}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+
+\newcommand{\sheet}[1]{
+    \pagestyle{fancy}
+    \fancyhead[L]{Lecture 2020 \\ Exercise Sheet #1}
+    \fancyhead[R]{Max Mustermann (0071337) \\ Vorname Nachname (0070042)}
+    
+    \titleformat{\section}
+    {\normalfont\Large\bfseries}{\stepcounter{totsec}Aufgabe #1.\thesection}{1em}{}
+}
+\newtotcounter{totsec}
+
+% \renewcommand*\thesection{Aufgabe \arabic{section}}
+% \renewcommand*\thesubsection{Teilaufgabe \alph{subsection}}
+
+\newcommand{\firsttask}{1}
+\newcommand{\numtasks}{\the\numexpr (0+\totvalue{totsec}) }
+
+
+\makeatletter
+\renewcommand{\Repeat}[1]{%
+    \expandafter\@Repeat\expandafter{\the\numexpr #1\relax}%
+}
+
+\def\@Repeat#1{%
+    \ifnum#1>0
+        \expandafter\@@Repeat\expandafter{\the\numexpr #1-1\expandafter\relax\expandafter}%
+    \else
+        \expandafter\@gobble
+    \fi
+}
+\def\@@Repeat#1#2{%
+    \@Repeat{#1}{#2}#2%
+}
+\makeatother
+
+\newcounter{headertask}
+\setcounter{headertask}{\firsttask{}-1}
+\newcommand{\insertpoints}{\begin{tikzpicture}[remember picture,overlay]
+	\node[yshift=-11\baselineskip, xshift=0.7\paperwidth] at (current page.north west) [text width=5cm,text centered,above right]{\Large{\begin{tabular}{\Repeat{\numtasks}{c|}c}
+		\Repeat{\numtasks}{\stepcounter{headertask}\the\value{headertask} & }
+		$\displaystyle\sum$ \\ \hline \Repeat{\numtasks}{&} \end{tabular}}};
+\end{tikzpicture}%	
+}
